@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pickle
 
-import cleaned	## Importing cleaning file locally
+import clean	## Importing cleaning file locally
 
 ## To upsumple no fraud class
 from imblearn.over_sampling import SMOTE
@@ -229,10 +229,23 @@ def rf_grid(X_train, y_train, X_test, y_test):
 ############### MAIN ##########################
 
 if __name__ == '__main__':
-	df = pd.read_json('data/data.json')
+	df = pd.read_json('../data/data.json')
 
 	## Clean the data
-	cleaned = clean.clean_data(df)
+	#cleaned = clean.clean_data(df)
+	cleaned = clean.derek_clean(df)
+
+	f1 = pickle.load(open('frauds.p', 'rb'))
+	f2 = pickle.load(open('nonfrauds.p', 'rb'))
+
+
+	df['fraud_association'] = 0
+	for i in range(len(df)):
+	    for j in df.org_name[i]:
+	        if j in f1: df.fraud_association[i] += f1[j]
+	        if j in f2: df.fraud_association[i] += f2[j]
+
+	
 
 	## Getting targets and cleaned features
 	y = clean.get_target(cleaned)

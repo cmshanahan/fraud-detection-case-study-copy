@@ -26,21 +26,16 @@ def predict(model, cleaned, cols):
 
 
 
-def get_prediction():
+def get_prediction(d):
 
 	## Read in the pickle model
-	model = pickle.load(open('models/rf_model.p', 'rb'))
+	model = pickle.load(open('website/models/rf_model.p', 'rb'))
 
-	## Connect to the Mongo DB
-	client = MongoClient('localhost', 27017)
-	db = client['fraud']		## Mongo database name
-	table = db['events']		## Mongo table name
-
-	## Read in the first X new entries
-	r = table.find().sort([('_id', -1)]).limit(2)
+	# ## Read in the first X new entries
+	# r = table.find().sort([('_id', -1)]).limit(2)
 
 	## Transforming data
-	cleaned = make_pandas(r[0])
+	cleaned = make_pandas(d)
 	
 
 	## Predict on the new data

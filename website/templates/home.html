@@ -19,8 +19,30 @@
 
 	<div id=HomeHeader2>
 		<p>Events:</p>
+
 		<button id='refresh'> Predict Most Recent Posting</button>
-		<input id='prediction' type='text' readonly/>
+
+		<table style="width:100%" border="1">
+		<tr>
+			<th>Event ID</th>
+			<th>Fraud Probability Prediction</th>
+			<th>Fraud Classification</th>
+			<th>Flag</th>
+		</tr>
+		{% for item in data %}
+		<tr>
+			<td>{{item[0]}}</td>
+			<td>{{item[2]}}</td>
+			<td>{{item[1]}}</td>
+			<td>
+				<form action="/action_page.php" method="get">
+  					<input type="checkbox" name="vehicle" value="Bike"><br>
+  				</form>
+  			</td>
+		</tr>
+		{% endfor %}
+		</table>
+
 	</div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

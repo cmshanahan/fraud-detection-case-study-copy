@@ -39,6 +39,33 @@ def clean_data_new(df):
 	df['payee_exists'] = [x.strip()=="" for x in df['payee_name']]
 
 	## Cleaning data for one entry at a time
+	df['AUD'] = (df['currency']=='AUD').astype(int)
+	df['CAD'] = (df['currency']=='CAD').astype(int)
+	df['EUR'] = (df['currency']=='EUR').astype(int)
+	df['GBP'] = (df['currency']=='GBP').astype(int)
+	df['MXN'] = (df['currency']=='MXN').astype(int)
+	df['NZD'] = (df['currency']=='NZD').astype(int)
+	df['USD'] = (df['currency']=='USD').astype(int)
+
+	df[0.0] = (df['delivery_method']==0.0).astype(int)
+	df[1.0] = (df['delivery_method']==1.0).astype(int)
+	df[3.0] = (df['delivery_method']==3.0).astype(int)
+
+	return df
+
+
+def derek_clean(df):
+	df['facebook_presence'] = df.org_facebook.apply(lambda x:1 if x>5 else 0)
+	df['twitter_presence'] = df.org_twitter.apply(lambda x:1 if x>5 else 0)
+	df['have_previous_payouts'] = df['previous_payouts'].apply(lambda x: 1 if len(x) != 0 else 0)
+	df['highly_suspect_state'] = df['venue_state'].apply(lambda x: 1 if x in ['MT', 'Mt', 'AK', 'FL', 'NEW SOUTH WALES', 'Florida'] else 0)
+	df['cap_name'] = df['name'].apply(lambda x: 1 if x.isupper() == True else 0)
+	df['org_desc_len'] = [len(x) for x in df['org_desc']]
+	df['payee_in_org'] = df.apply(lambda x: x.payee_name in x.org_name, axis=1)
+	previous_payouts = df['previous_payouts']
+	df['useage']=[len(x)for x in previous_payouts]
+	df['useage_bool'] = df.useage.apply(lambda x:0 if x>1 else 1)
+
 	df['AUD'] = df['currency']=='AUD'
 	df['CAD'] = df['currency']=='CAD'
 	df['EUR'] = df['currency']=='EUR'
@@ -50,10 +77,6 @@ def clean_data_new(df):
 	df[0.0] = df['delivery_method']==0.0
 	df[1.0] = df['delivery_method']==1.0
 	df[3.0] = df['delivery_method']==3.0
-
-
-
-	return df
 
 ## Cleaning the target data into 1 and 0
 def get_target(df):
