@@ -3,6 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pickle
 
+import clean
+
 ## To upsumple no fraud class
 from imblearn.over_sampling import SMOTE
 
@@ -16,6 +18,11 @@ from sklearn.ensemble import GradientBoostingClassifier
 
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.model_selection import GridSearchCV
+
+
+
+######################################################
+###### SCORING METRICS and PROFIT CURVES #############
 
 ## Gets recall and auc score of model
 def cross_val_recall_auc(X_train, y_train, func):
@@ -51,38 +58,6 @@ def get_confusion(preds, target):
 		print("{0:2}: {1:5}  |  {2:3}: {3:5.3}".format(cons[i],confusion[i],scos[i],scoring[i]))
 
 	return (confusion, scoring)
-
-
-def clean_data(df):
-
-	## Age Dummy if over specified number
-	df['age_dummy'] = df['user_age'].apply(lambda x: 1 if x > 0 else 0)
-
-	## Adding Payoutdate and Eventdate Diff columns
-	df['eventdiff'] = df['event_published'] - df['event_end']
-	df['payoutdiff'] = df['approx_payout_date'] - df['event_created']
-
-	## Getting dummies on curreny and delivery method
-	df = pd.concat([df, pd.get_dummies(df.currency)], axis=1);
-	df = pd.concat([df, pd.get_dummies(df.delivery_method)], axis=1); 
-
-	## Stripping the 
-	df['payee_exists'] = [x.strip()=="" for x in df['payee_name']]
-
-	return df
-
-
-## Cleaning the target data into 1 and 0
-def get_target(df):
-
-	## Signals fraud account 
-	fraud_accts = set(['fraudster_event', 'fraudster', 'fraudster_att'])
-
-	new_df = df.copy()
-	new_df['fraud'] = df['acct_type'].apply(lambda x: 1 if x in fraud_accts else 0)
-	new_df.drop('acct_type', axis=1, inplace=True)	## Dropping old col
-	return new_df['fraud'].values
-
 
 ## Find optimal threshold
 def find_thresh(preds, y_test, samples):
@@ -123,6 +98,12 @@ def profit_curve(cost_ben, pred_probs, labels):
 	
 	return (thresholds, profits)
 
+######################################################
+
+
+
+######################################################
+################## MODELS ############################
 
 ## Logistic regression model with 
 def fit_logreg(y, cleaned, cols):
@@ -185,6 +166,7 @@ def fit_rf(y, cleaned, cols):
 	#cross_val_recall_auc(X_train, y_train, model)
 	return model
 
+## Gradient Boost Model
 def fit_gb(y, cleaned, cols):
 	X = cleaned[cols].values
 
@@ -214,7 +196,7 @@ def fit_gb(y, cleaned, cols):
 
 	cross_val_recall_auc(X_train, y_train, model)
 
-
+## Grid Search for the Random Forrest
 def rf_grid(X_train, y_train, X_test, y_test):
 	random_forest_grid = {'max_depth': [3, 5, 7],
 					  'max_features': ['sqrt', 'log2'],
@@ -240,15 +222,20 @@ def rf_grid(X_train, y_train, X_test, y_test):
 
 	cross_val_recall_auc(X_train, y_train, best_rf_model)
 
+####################################################
+
+
+###############################################
+############### MAIN ##########################
 
 if __name__ == '__main__':
 	df = pd.read_json('data/data.json')
 
 	## Clean the data
-	cleaned = clean_data(df)
+	cleaned = clean.clean_data(df)
 
 	## Getting targets and cleaned features
-	y = get_target(cleaned)
+	y = clean.get_target(cleaned)
 
 	# log_reg_cols = ['user_age', 'age_dummy']
 	# fit_logreg(y, cleaned, log_reg_cols)
