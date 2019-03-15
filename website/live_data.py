@@ -56,9 +56,9 @@ while True:
 			## Assignning and class
 			clas = 'Low'
 			if pred >= .5:
-				clas = 'High'
-			elif (pred < .5) & (pred > .25):
 				clas = 'Medium'
+			elif pred > .75:
+				clas = 'High'
 
 			#fs = flags(raw_data, clas)
 

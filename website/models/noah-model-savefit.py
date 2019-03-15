@@ -111,15 +111,16 @@ def fit_logreg(y, cleaned, cols):
 
 	X = cleaned[cols].values
 
-	## Resampling the data to avoid non fraud bias
-	method = SMOTE(kind='regular')
-	X_resampled, y_resampled = method.fit_sample(X, y)
-
-
-	X_train, X_test, y_train, y_test = train_test_split(X_resampled,
-														y_resampled,
+	X_train, X_test, y_train, y_test = train_test_split(X,
+														y,
 														test_size=.2,
 														random_state=1)
+
+	## Resampling the data to avoid non fraud bias
+	method = SMOTE(kind='regular')
+	X_train, y_train = method.fit_sample(X_train, y_train)
+
+
 	model = LogisticRegression()
 	model.fit(X_train, y_train)
 	preds = model.predict_proba(X_test)[:,1]
@@ -133,15 +134,14 @@ def fit_logreg(y, cleaned, cols):
 def fit_rf(y, cleaned, cols):
 	X = cleaned[cols].values
 
-	## Resampling the data to avoid non fraud bias
-	method = SMOTE(kind='regular')
-	X_resampled, y_resampled = method.fit_sample(X, y)
-
-
-	X_train, X_test, y_train, y_test = train_test_split(X_resampled,
-														y_resampled,
+	X_train, X_test, y_train, y_test = train_test_split(X,
+														y,
 														test_size=.2,
 														random_state=1)
+
+	## Resampling the data to avoid non fraud bias
+	method = SMOTE(kind='regular')
+	X_train, y_train = method.fit_sample(X_train, y_train)
 
 	# rf_grid(X_train, y_train, X_test, y_test)
 
@@ -153,7 +153,7 @@ def fit_rf(y, cleaned, cols):
 								   n_estimators= 20,
 								   random_state= 1)
 	model.fit(X_train, y_train)
-	#pickle.dump(model, open('website/models/rf_model.p', 'wb'))
+	pickle.dump(model, open('website/models/rf_model.p', 'wb'))
 
 	preds = model.predict_proba(X_test)[:,1]
 	print(preds)
@@ -171,15 +171,16 @@ def fit_rf(y, cleaned, cols):
 def fit_gb(y, cleaned, cols):
 	X = cleaned[cols].values
 
-	## Resampling the data to avoid non fraud bias
-	method = SMOTE(kind='regular')
-	X_resampled, y_resampled = method.fit_sample(X, y)
 
-
-	X_train, X_test, y_train, y_test = train_test_split(X_resampled,
-														y_resampled,
+	X_train, X_test, y_train, y_test = train_test_split(X,
+														y,
 														test_size=.2,
 														random_state=1)
+
+	## Resampling the data to avoid non fraud bias
+	method = SMOTE(kind='regular')
+	X_train, y_train = method.fit_sample(X_train, y_train)
+
 
 	model = GradientBoostingClassifier(max_depth= 3,
 									   max_features= 'sqrt',
@@ -188,7 +189,7 @@ def fit_gb(y, cleaned, cols):
 									   n_estimators= 5,
 									   random_state= 1)
 	model.fit(X_train, y_train)
-	#pickle.dump(model, open('website/models/gb_model.p', 'wb'))
+	pickle.dump(model, open('website/models/gb_model.p', 'wb'))
 
 	preds = model.predict_proba(X_test)[:,1]
 	print(preds)
