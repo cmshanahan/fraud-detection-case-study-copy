@@ -60,11 +60,14 @@ while True:
 			elif (pred < .5) & (pred > .25):
 				clas = 'Medium'
 
+			#fs = flags(raw_data, clas)
+
 			print("Prediction:", pred, "  Class:", clas)
 
 			## Inserting prediction and class into dictionary
 			raw_data['prediction'] = pred
 			raw_data['risk'] = clas
+			#raw_data['flags'] = fs
 
 			## Insert raw data
 			table.insert_one(raw_data)
@@ -76,6 +79,6 @@ while True:
 
 	except:
 		print('Failed to Predict')
-		
-	## Sleep program for 1.5 minutes, waiting for new data
+			
+		## Sleep program for 1.5 minutes, waiting for new data
 	time.sleep(10)

@@ -17,6 +17,26 @@ def make_pandas(entry):
 	## Clean the data
 	return clean.clean_data_new(df)
 
+def flags(raw_data, clas):
+	flags = []
+	if raw_data['currency'] not in ['USD', 'CAD', 'GBP', 'AUD', 'EUR', 'NZD']:
+		flags.append('Unusual Currency')
+	if raw_data['user_age'] < 10:
+		flags.append('New User')
+	if raw_data['payoutdiff'] > 10000000:
+		flags.append('High payoutdiff')
+	if raw_data['gts'] > 1500:
+		flags.append('High gts')
+	if raw_data['num_order'] < 2:
+		flags.append('Low num_order')
+	if raw_data['payee_exists'] != True:
+		flags.append('No valid payee')
+	if raw_data['dict_elements'] < 2:
+		flags.append('Sparse payment history')
+
+	return flags
+
+
 ## Predict on the new entry
 def predict(model, cleaned, cols):
 
@@ -25,7 +45,6 @@ def predict(model, cleaned, cols):
 	preds = model.predict_proba(X)[:,1]
 
 	return preds
-
 
 
 def get_prediction(d):
