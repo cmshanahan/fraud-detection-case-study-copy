@@ -1,12 +1,18 @@
 #HomeHeader{
-  background-color: #12a5d4;
-  border: 3px dashed #fda917;
-  margin: 25px;
-  padding: 25px;
+	background-color: #dc9191;
+	border: 3px dashed white;
+	margin: 25px;
+	padding: 25px;
 }
+
 #HomeHeader2{
-  background-color: #d40fd4;
-  border: 3px dashed #0b6d0f;
-  margin: 25px;
-  padding: 25px;
+	background-color: #aff3a3;
+	border: 3px dashed green;
+	margin: 25px;
+	padding: 25px;
+}
+
+img {
+    height: 220px;
+    width: 400px;
 }

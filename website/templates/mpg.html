@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" type="text/css" href="static/mpg.css">
+	<title>Miles Per Gallon (MPG)</title>
+</head>
+
+<body>
+
+	<center><img src="https://inclusionwinnipeg.org/site/wp-content/uploads/2016/12/mpg-mondetta-logo.jpg"></center>
+
+	<h1>Predict the MPG of a Car! Wow...</h1>
+
+	<div id='controls'>
+		<head>Enter Information:</head>
+		<div>
+			<label>Cylinders</label>
+			<input id="cylinders" type="number" value="6">
+		</div>
+
+		<div>
+			<label>Horsepower</label>
+			<input id="horsepower" type="number" value="130">
+		</div>
+
+		<div>
+			<label>Weight</label>
+			<input id="weight" type="number" value="2000">
+		</div>
+		<div>
+			<label>Displacement</label>
+			<input id="displacement" type="number" value="120">
+		</div>
+
+		<div>
+			<label>Acceleration</label>
+			<input id="acceleration" type="number" value="11">
+		</div>
+
+		<div>
+			<label>Model</label>
+			<input id="model" type="number" value="70">
+		</div>
+		<div>
+			<label>Origin</label>
+			<input id="origin" type="number" value="1">
+		</div>
+
+		<div>
+			<button id='inferenceLR'> Predict with Linear Regression</button>
+			<input id='mpgLR' type='text' readonly/>
+		</div>
+		
+		<div>
+			<button id='inferenceRF'> Predict with Random Forrest</button>
+			<input id='mpgRF' type='text' readonly/>
+		</div>
+
+	</div>
+
+	<ul>
+		<li><a href="/">Home</a></li>
+	</ul>
+
+	<button id='scatter-button'>Scatter Plot</button>
+	<div id='graph1'></div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="static/mpg.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.35.2/plotly.min.js"></script>
+
+</body>
+</html>

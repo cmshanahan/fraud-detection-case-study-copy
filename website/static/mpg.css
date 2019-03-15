@@ -1,10 +1,10 @@
 body {
-    background-color: #d876ff;
+    background-color: #e07777;
 }
 
 img {
     height: 150px;
-    width: 150px;
+    width: 200px;
 }
 
 li {
@@ -12,16 +12,16 @@ li {
 }
 
 h1 {
-    font-family: 'Trebuchet MS';
-    color: black;
-    background-color: #20ceec;
+    font-family: 'Gugi', cursive;
+    color: red;
+    background-color: yellow;
     border: 3px dashed green;
     margin: 25px;
     padding: 25px;
 }
 
 #controls {
-    background-color: #20ceec;
+    background-color: yellow;
     border: 3px dashed green;
     margin: 25px;
     padding: 25px;
@@ -33,14 +33,14 @@ label {
 }
 
 input {
-    background-color: #20ceec;
-    border: 1px solid black;
-    width: 200px;
+    background-color: white;
+    border: 1px solid red;
+    width: 120px;
     ;
 }
 
 #inference-button {
-    background-color: #20ceec;
+    background-color: yellow;
     border: 3px dashed green;
     margin: 10px;
     padding: 10px;

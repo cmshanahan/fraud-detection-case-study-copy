@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pickle
 
-import clean
+import cleaned	## Importing cleaning file locally
 
 ## To upsumple no fraud class
 from imblearn.over_sampling import SMOTE
