@@ -94,6 +94,7 @@ def profit_curve(cost_ben, pred_probs, labels):
 	plt.xlabel("Percentage of test instances (decreasing by score)")
 	plt.ylabel("Profit")
 	plt.grid()
+	plt.savefig('website/images/profit_curve.png')
 	plt.show()
 	
 	return (thresholds, profits)
@@ -152,18 +153,18 @@ def fit_rf(y, cleaned, cols):
 								   n_estimators= 20,
 								   random_state= 1)
 	model.fit(X_train, y_train)
-	pickle.dump(model, open('models/rf_model.p', 'wb'))
+	#pickle.dump(model, open('website/models/rf_model.p', 'wb'))
 
 	preds = model.predict_proba(X_test)[:,1]
 	print(preds)
 
-	cost_ben = np.array([[ 4990, -200],
+	cost_ben = np.array([[ 4990, -450],
 						 [ 0, 0]])
 	profit_curve(cost_ben, preds, y_test)
 
-	#find_thresh(preds, y_test, 10)
+	find_thresh(preds, y_test, 10)
 
-	#cross_val_recall_auc(X_train, y_train, model)
+	cross_val_recall_auc(X_train, y_train, model)
 	return model
 
 ## Gradient Boost Model
@@ -187,7 +188,7 @@ def fit_gb(y, cleaned, cols):
 									   n_estimators= 5,
 									   random_state= 1)
 	model.fit(X_train, y_train)
-	pickle.dump(model, open('models/gb_model.p', 'wb'))
+	#pickle.dump(model, open('website/models/gb_model.p', 'wb'))
 
 	preds = model.predict_proba(X_test)[:,1]
 	print(preds)
@@ -229,23 +230,11 @@ def rf_grid(X_train, y_train, X_test, y_test):
 ############### MAIN ##########################
 
 if __name__ == '__main__':
-	df = pd.read_json('../data/data.json')
+	df = pd.read_json('website/data/data.json')
 
 	## Clean the data
-	#cleaned = clean.clean_data(df)
-	cleaned = clean.derek_clean(df)
-
-	f1 = pickle.load(open('frauds.p', 'rb'))
-	f2 = pickle.load(open('nonfrauds.p', 'rb'))
-
-
-	df['fraud_association'] = 0
-	for i in range(len(df)):
-	    for j in df.org_name[i]:
-	        if j in f1: df.fraud_association[i] += f1[j]
-	        if j in f2: df.fraud_association[i] += f2[j]
-
-	
+	cleaned = clean.clean_data(df)
+	print(cleaned.columns)
 
 	## Getting targets and cleaned features
 	y = clean.get_target(cleaned)
@@ -262,10 +251,10 @@ if __name__ == '__main__':
 			   'gts',
 			   'num_order',
 			   'num_payouts',
-			   'payee_exists']
+			   'payee_exists',
+			   'dict_elements']
 	rf_model = fit_rf(y, cleaned, rf_cols)
 
-	gb_cols = ['age_dummy', 'payoutdiff', 'eventdiff', 'gts']
 	fit_gb(y, cleaned, rf_cols)
 
 

@@ -13,12 +13,16 @@ $(document).ready(function(){
 		})
 
 		console.log(response)
-		$('#prediction').val(response)
+		$('#prediction').val(response.prediction)
 
 	})
 
-	$("#table td.hml:contains('High')").css('background-color', 'red')
-	$("#table td.hml:contains('Medium')").css('background-color', 'yellow')
-
 })
+
+
+
+
+
+
+
 

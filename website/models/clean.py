@@ -21,6 +21,9 @@ def clean_data(df):
 	## Stripping the 
 	df['payee_exists'] = [x.strip()=="" for x in df['payee_name']]
 
+	## Adding column with length of previous payouts
+	df['dict_elements'] = df.previous_payouts.map(lambda x: len(x))
+
 	return df
 
 def clean_data_new(df):

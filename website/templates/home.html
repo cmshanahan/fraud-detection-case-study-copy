@@ -18,11 +18,12 @@
 	</center>
 
 	<div id=HomeHeader2>
+		<li><a href="/info">Fraud Info Page</a></li>
 		<p>Events:</p>
 
 		<button id='refresh'> Predict Most Recent Posting</button>
 
-		<table style="width:100%" border="1">
+		<table style="width:100%" border="1" id=table>
 		<tr>
 			<th>Event ID</th>
 			<th>Fraud Probability Prediction</th>
@@ -33,7 +34,7 @@
 		<tr>
 			<td>{{item[0]}}</td>
 			<td>{{item[2]}}</td>
-			<td>{{item[1]}}</td>
+			<td class='hml'>{{item[1]}}</td>
 			<td>
 				<form action="/action_page.php" method="get">
   					<input type="checkbox" name="vehicle" value="Bike"><br>

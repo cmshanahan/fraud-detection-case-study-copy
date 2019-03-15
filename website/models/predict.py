@@ -1,5 +1,5 @@
 import pickle
-import models.clean as clean
+import website.models.clean as clean
 import pandas as pd
 
 from pymongo import MongoClient
@@ -8,6 +8,8 @@ from pymongo import MongoClient
 def make_pandas(entry):
 
 	prev = entry['previous_payouts']
+	## Adding column with length of previous payouts
+	entry['dict_elements'] = len(prev)
 	del entry['previous_payouts']
 
 	df = pd.DataFrame.from_dict(entry)
@@ -46,7 +48,8 @@ def get_prediction(d):
 		   'gts',
 		   'num_order',
 		   'num_payouts',
-		   'payee_exists']
+		   'payee_exists',
+		   'dict_elements']
 	return predict(model, cleaned, rf_cols)
 	
 

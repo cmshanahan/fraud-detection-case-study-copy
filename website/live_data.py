@@ -72,8 +72,10 @@ while True:
 			sequence_number += 1
 			print(sequence_number)
 
+		print("Duplicate")
+
 	except:
-		print('duplicate')
+		print('Failed to Predict')
 		
 	## Sleep program for 1.5 minutes, waiting for new data
 	time.sleep(10)

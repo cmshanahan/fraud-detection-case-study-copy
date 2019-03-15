@@ -5,8 +5,6 @@ import pickle
 import numpy as np
 import pandas as pd
 
-import models.predict as predict
-
 from pymongo import MongoClient
 client = MongoClient('localhost', 27017)
 db = client['fraud']
@@ -29,7 +27,11 @@ def home():
 
 
 	return render_template('home.html', data=items)
-	#return render_template('home.html')
+
+
+@app.route('/info', methods = ['GET'])
+def info():
+	return render_template('info.html')
 
 
 ## Calculating and posting the linear regression model prediction
