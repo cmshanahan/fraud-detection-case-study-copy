@@ -16,10 +16,42 @@ def clean_data(df):
 
 	## Getting dummies on curreny and delivery method
 	df = pd.concat([df, pd.get_dummies(df.currency)], axis=1);
+	df = pd.concat([df, pd.get_dummies(df.delivery_method)], axis=1);
+
+	## Stripping the 
+	df['payee_exists'] = [x.strip()=="" for x in df['payee_name']]
+
+	return df
+
+def clean_data_new(df):
+	## Age Dummy if over specified number
+	df['age_dummy'] = df['user_age'].apply(lambda x: 1 if x > 0 else 0)
+
+	## Adding Payoutdate and Eventdate Diff columns
+	df['eventdiff'] = df['event_published'] - df['event_end']
+	df['payoutdiff'] = df['approx_payout_date'] - df['event_created']
+
+	## Getting dummies on curreny and delivery method
+	df = pd.concat([df, pd.get_dummies(df.currency)], axis=1);
 	df = pd.concat([df, pd.get_dummies(df.delivery_method)], axis=1); 
 
 	## Stripping the 
 	df['payee_exists'] = [x.strip()=="" for x in df['payee_name']]
+
+	## Cleaning data for one entry at a time
+	df['AUD'] = df['currency']=='AUD'
+	df['CAD'] = df['currency']=='CAD'
+	df['EUR'] = df['currency']=='EUR'
+	df['GBP'] = df['currency']=='GBP'
+	df['MXN'] = df['currency']=='MXN'
+	df['NZD'] = df['currency']=='NZD'
+	df['USD'] = df['currency']=='USD'
+
+	df[0.0] = df['delivery_method']==0.0
+	df[1.0] = df['delivery_method']==1.0
+	df[3.0] = df['delivery_method']==3.0
+
+
 
 	return df
 
